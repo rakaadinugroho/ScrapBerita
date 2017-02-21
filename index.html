@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contoh Scrap Tirto.id</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="nyan.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var config = [
+                {
+                    url: 'https://tirto.id/q/politik-bpt',
+                    selector: 'li.media',
+                    loop: true,
+                    result: [
+                        {
+                            name: 'judul',
+                            find: 'h4.media-heading',
+                            loop: false,
+                            grab: {
+                                by: 'text',
+                                value: '',
+                                custom: function(data) {
+                                    data = data.replace(/a/g, 'b');
+                                    return data;
+                                }
+                            }
+                        },
+                        {
+                            name: 'gambar',
+                            find: 'img.media-object',
+                            loop: false,
+                            format: Date() + ' {{data}}',
+                            grab: {
+                                by: 'attr',
+                                value: 'src'
+                            }
+                        },
+                        {
+                            name: 'link',
+                            find: 'a.thumb.pull-left',
+                            loop: false,
+                            grab: {
+                                by: 'attr',
+                                value: 'href'
+                            }
+                        },
+                        {
+                            name: 'tanggal',
+                            find: 'span.date',
+                            loop: false,
+                            format: 'Ditulis {{data}}',
+                            grab: {
+                                by: 'text',
+                                value: ''
+                            }
+                        },
+                        {
+                            name: 'konten',
+                            find: 'div.media-body p',
+                            loop: false,
+                            grab:{
+                                by: 'text',
+                                value: ''
+                            }
+                        }
+
+                    ]
+                },
+
+            ];
+
+            $.nyangrab(config, function(results) {
+                document.write('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
+            });
+        });
+    </script>
+</body>
+</html>
