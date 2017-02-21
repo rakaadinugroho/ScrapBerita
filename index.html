@@ -6,9 +6,24 @@
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.9/firebase-messaging.js"></script>
 <script type="text/javascript" src="nyan.js"></script>
     <script type="text/javascript">
         $(function() {
+            var configNoSQL = {
+                apiKey: "AIzaSyDaFDQxyxF9ypsxgiN6SGcxIwgA05x3f2U",
+                authDomain: "datasitus-d470e.firebaseapp.com",
+                databaseURL: "https://datasitus-d470e.firebaseio.com",
+                storageBucket: "datasitus-d470e.appspot.com",
+                messagingSenderId: "1091007469406"
+            };
+            firebase.initializeApp(configNoSQL);
+            var database = firebase.database();
+
             var config = [
                 {
                     url: 'https://tirto.id/q/politik-bpt',
@@ -28,7 +43,6 @@
                             name: 'gambar',
                             find: 'img.media-object',
                             loop: false,
-                            /*format: Date() + ' {{data}}',*/
                             grab: {
                                 by: 'attr',
                                 value: 'src'
@@ -47,7 +61,6 @@
                             name: 'tanggal',
                             find: 'span.date',
                             loop: false,
-                            format: 'Ditulis {{data}}',
                             grab: {
                                 by: 'text',
                                 value: ''
@@ -70,6 +83,8 @@
 
             $.nyangrab(config, function(results) {
                 document.write('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
+                var obj = jQuery.parseJSON(JSON.stringify(results, null, 2));
+                firebase.database().ref('tirto').set(obj);
             });
         });
     </script>
