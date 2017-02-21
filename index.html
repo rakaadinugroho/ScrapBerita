@@ -96,11 +96,19 @@
                     result: [
                         {
                             name: 'judul',
-                            find: 'div.mr140 h3',
+                            find: 'a.f20.ln24.fbo.txt-oev-2',
                             loop: false,
                             grab: {
-                                by: 'text',
-                                value: ''
+                                by: 'attr',
+                                value: 'title',
+                                custom: function(data) {
+                                    data    = data.replace(/\\t/g, 'cd');
+                                    /*
+                                    var repone = data.replace(/\\t/g, '');
+                                    var reptwo = repone.replace(/\\n/g, '');
+                                    */
+                                    return data;
+                                }
                             }
                         },
                         {
@@ -136,7 +144,7 @@
 
             ];
             $.nyangrab(configTribun, function(results) {
-//                document.write('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
+                document.write('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
                 var obj = jQuery.parseJSON(JSON.stringify(results, null, 2));
                 var separator   = Date();
                 firebase.database().ref('tribun/' +separator).set(obj);
