@@ -84,9 +84,62 @@
             $.nyangrab(config, function(results) {
                 document.write('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
                 var obj = jQuery.parseJSON(JSON.stringify(results, null, 2));
-//                var obj =jQuery.parseJSON(JSON.stringify(results));
                 var separator   = Date();
                 firebase.database().ref('tirto/' +separator).set(obj);
+            });
+            /* TribunNews :v */
+            var configTribun = [
+                {
+                    url: 'http://www.tribunnews.com/nasional/politik',
+                    selector: 'li.p1520.art-list.pos_rel',
+                    loop: true,
+                    result: [
+                        {
+                            name: 'judul',
+                            find: 'div.mr140 h3',
+                            loop: false,
+                            grab: {
+                                by: 'text',
+                                value: ''
+                            }
+                        },
+                        {
+                            name: 'link',
+                            find: 'a.thumb.pull-left',
+                            loop: false,
+                            grab: {
+                                by: 'attr',
+                                value: 'href'
+                            }
+                        },
+                        {
+                            name: 'konten',
+                            find: 'div.grey2.pt5.f13.ln18.txt-oev-3',
+                            loop: false,
+                            grab:{
+                                by: 'text',
+                                value: ''
+                            }
+                        },
+                        {
+                            name: 'tanggal',
+                            find: 'time',
+                            loop: false,
+                            grab: {
+                                by: 'attr',
+                                value: 'title'
+                            }
+                        }
+
+                    ]
+                },
+
+            ];
+            $.nyangrab(configTribun, function(results) {
+//                document.write('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
+                var obj = jQuery.parseJSON(JSON.stringify(results, null, 2));
+                var separator   = Date();
+                firebase.database().ref('tribun/' +separator).set(obj);
             });
         });
     </script>
