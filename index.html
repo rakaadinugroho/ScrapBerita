@@ -84,7 +84,8 @@
             $.nyangrab(config, function(results) {
                 document.write('<pre>' + JSON.stringify(results, null, 2) + '</pre>');
                 var obj = jQuery.parseJSON(JSON.stringify(results, null, 2));
-                firebase.database().ref('tirto/'+Date()).set(obj);
+                var separator   = Date();
+                firebase.database().ref('tirto/' +separator).set(obj);
             });
         });
     </script>
